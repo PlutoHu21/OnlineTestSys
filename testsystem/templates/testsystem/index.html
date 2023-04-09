@@ -1,0 +1,221 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <title> {{ request.session.user_name }}，欢迎回来！</title>
+    {% block icon %}
+        <link rel="icon" href="{% static '/admin/simpleui-x/img/favicon.png' %}">
+    {% endblock %}
+
+    <link href="{% static 'login/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'login/css/font-awesome.css' %}" rel="stylesheet">
+
+    <link href="{% static 'login/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'login/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="left">
+                    <li style="color: dodgerblue">
+                        <img src="/static/admin/simpleui-x/img/favicon.png"} style="width: 50px;left: auto">
+                        <a class="navbar-brand" href="#" style="color: dodgerblue;right: auto">在线习题测试平台</a>
+                    </li>
+                </div>
+                <br>
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <span class="text-muted small pull-right">最后更新：<i class="fa fa-clock-o"></i>{% now "Y-m-d H:i" %}</span>
+                        <h2>首页</h2>
+                        <div class="input-group">
+                            <input type="text" placeholder="查找试卷" class="input form-control">
+                            <span class="input-group-btn">
+                                        <button type="button" class="btn"> <i class="fa fa-search"></i> 搜索</button>
+                                </span>
+                        </div>
+                        <div class="clients-list">
+                            <ul class="nav nav-tabs">
+                                <span class="pull-right small text-muted">{{paper_count}}个试卷</span>
+                                <li class="active"><a data-toggle="tab" href="#tab-1"> 未完成</a>
+                                </li>
+                                <li class=""><a data-toggle="tab" href="#tab-2"> 已完成</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <div class="full-height-scroll">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <tbody>
+                                                    {% for paper in paper_nofinish %}
+                                                    <tr>
+                                                        <td class="client-avatar"><img alt="image" src="{% static 'login/image/paper.jpg' %}"> </td>
+                                                        <td><a href="{% url 'testsystem:paper' paper.id %}">{{paper.paper_text}}</a></td>
+                                                        <td> 发布时间{{paper.pub_date}}</td>    
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <div class="full-height-scroll">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <tbody>
+                                                    {% for paper in score_list %}
+                                                    <tr>
+                                                        <td class="client-avatar"><img alt="image" src="{% static 'login/image/paper.jpg' %}"> </td>
+                                                        <td><a href="{% url 'testsystem:paper' paper.paper_id.id %}">{{paper.paper_id.paper_text}}</a></td>
+                                                        <td> 发布时间：{{paper.paper_id.pub_date}}</td>    
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox ">
+                    <div class="ibox-content">
+                        <div class="tab-content">
+                            <div id="contact-1" class="tab-pane active">
+                                <div class="row m-b-lg">
+                                    <div class="col-lg-4 text-center">
+                                        <h1>
+                                            <a>
+                                                个人简介
+                                            </a>
+                                        </h1>
+                                        <br><br><br>
+                                        <div class="m-b-sm">
+                                            <img alt="image" class="img-circle" src="{% static 'login/image/student.jpg' %}" id="avatar" style="width: 100px">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <h1>
+                                            <a>
+                                                <button type="button" class="btn btn-rounded" style="color: dodgerblue;width: 80px" onclick="editInfo()">
+                                                    编辑信息
+                                                </button>
+                                            </a>
+                                            &nbsp
+                                            <a>
+                                                <button class="btn btn-rounded" style="color: dodgerblue;width: 80px" onclick="upload.click()">
+                                                    上传头像
+                                                </button>
+                                                <input type="file" id="upload" style="display: none;" accept="image/*" onchange="inputFile(this)"/>
+                                            </a>
+                                            &nbsp
+                                            <a class="link" href="/logout/">
+                                                <button type="button" class="btn btn-rounded" style="color: dodgerblue;width: 80px" >
+                                                    退出登录
+                                                </button>
+                                            </a>
+                                        </h1><br>
+                                        <h4>
+                                            姓名：{{ request.session.user_name }}
+                                        </h4><br>
+                                        <h4>
+                                            学号：{{ request.session.user_idcard }}
+                                        </h4><br>
+                                        <h4>
+                                            性别：{{ user_info.sex }}
+                                            &nbsp&nbsp
+                                            生日：{{ user_info.birthday }}
+                                        </h4><br>
+                                        <h4>
+                                            邮箱：{{ user_info.email }}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="client-detail">
+                                    <div class="full-height-scroll">
+                                        <strong>显示成绩</strong>
+                                            <ul class="list-group clear-list">
+                                                {% for score in score_list %}
+                                                <li class="list-group-item fist-item">
+                                                    <span class="pull-right"> {{score.score}}</span> {{score.paper_id}}
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block  particles %}
+{#        {% if 'SIMPLEUI_LOGIN_PARTICLES'|get_config != False %}#}
+            <!--
+                Close login page particles see link:
+                关闭登录页粒子动画请查看：
+                https://github.com/newpanjing/simpleui/blob/master/QUICK.md#关闭登录页粒子动画
+            -->
+            <style type="text/css">
+                #particles-js {
+                    position: fixed;
+                    top: 0px;
+                    left: 0px;
+                    right: 0px;
+                    bottom: 0px;
+                    z-index: -1;
+                }
+            </style>
+            <!-- particles.js container -->
+            <div id="particles-js"></div>
+            <script type="text/javascript" src="{% static '/admin/simpleui-x/particles/particles.js' %}"></script>
+            <script type="text/javascript" src="{% static '/admin/simpleui-x/particles/app.js' %}"></script>
+{#        {% endif %}#}
+    {% endblock %}
+
+    <!-- 全局js -->
+    <script src="{% static 'login/js/jquery.min.js' %}"></script>
+    <script src="{% static 'login/js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'login/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+    <!-- 自定义js -->
+    <script src="{% static 'login/js/content.js' %}"></script>
+
+    <script type="text/javascript">
+        function inputFile(obj) {
+            const file = obj.files[0];
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                $("#avatar").attr("src", this.result);
+            }
+        }
+    </script>
+
+    <script>
+        $(function () {
+            $('.full-height-scroll').slimScroll({
+                height: '100%'
+            });
+        });
+    </script>
+
+</body>
+
+</html>
