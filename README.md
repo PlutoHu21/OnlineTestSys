@@ -14,10 +14,19 @@
 
 	py manage.py runserver 80
 
-登陆后台：
+访问网页：
 
-	访问 /admin
+```
+127.0.0.1:8000
+```
 
-创建教师账户：
+创建管理员：
 
 	py manage.py createsuperuser
+
+访问后台：
+
+```
+127.0.0.1:8000/admin
+```
+
