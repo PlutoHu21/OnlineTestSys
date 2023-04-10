@@ -32,7 +32,7 @@ class User(models.Model):
     sex = models.CharField('性别', max_length=32, choices=gender, default="男")
     birthday = models.DateField('生日', default=datetime.now())
     c_time = models.DateTimeField('注册时间', auto_now_add=True)
-    # avatar = models.FileField(upload_to='avatars/', default="{% static 'login/image/student.jpg' %}")
+    # avatar = models.CharField('头像', max_length=128, default="{% static 'media/student.jpg' %}")
 
     def __str__(self):
         return self.name
@@ -41,6 +41,8 @@ class User(models.Model):
         ordering = ["-c_time"]
         verbose_name = "用户"
         verbose_name_plural = "用户"
+
+
 
 
 class Paper(models.Model):

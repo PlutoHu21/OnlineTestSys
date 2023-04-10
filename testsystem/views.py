@@ -15,6 +15,8 @@ def index(request):
     if not request.session.get('is_login', None):  # 未登录则限制访问
         return redirect('/login/')
     user_info = User.objects.get(idcard=request.session['user_idcard'])
+    # avatar_obj = request.FILES.get('avatar')
+    # user_info.avatar = avatar_obj
     paper_list = Paper.objects.order_by('-id')
     paper_count = Paper.objects.all().count()
     score_list = Score.objects.filter(user_id=request.session['user_id'])
