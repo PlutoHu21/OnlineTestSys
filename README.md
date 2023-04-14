@@ -1,5 +1,5 @@
 # OnlineTestSys
-在线习题测试平台。
+在线试题推荐平台。
 
 后端基于Python的Django框架，后台使用SampleUI，前端基于Bootstrap。
 

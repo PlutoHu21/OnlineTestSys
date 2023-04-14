@@ -6,8 +6,8 @@ from django.utils.html import format_html
 from django.utils import timezone
 
 # Register your models here.
-admin.site.site_header = '在线习题测试系统后台'
-admin.site.site_title = '在线习题测试系统'
+admin.site.site_header = '在线试题推荐系统后台'
+admin.site.site_title = '在线试题推荐系统'
 
 
 class SCInLine(admin.TabularInline):
