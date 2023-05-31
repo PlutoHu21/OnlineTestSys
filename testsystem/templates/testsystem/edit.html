@@ -116,7 +116,7 @@
                                                     <tr>
                                                         <td class="client-avatar"><img alt="image" src="{% static 'login/image/paper.jpg' %}"> </td>
                                                         <td><a href="{% url 'testsystem:paper' paper.id %}">{{paper.paper_text}}</a></td>
-                                                        <td> 发布时间{{paper.pub_date}}</td>    
+                                                        <td> 发布时间{{paper.pub_date}}</td>
                                                     </tr>
                                                     {% endfor %}
                                                 </tbody>
@@ -133,7 +133,7 @@
                                                     <tr>
                                                         <td class="client-avatar"><img alt="image" src="{% static 'login/image/paper.jpg' %}"> </td>
                                                         <td><a href="{% url 'testsystem:paper' paper.paper_id.id %}">{{paper.paper_id.paper_text}}</a></td>
-                                                        <td> 发布时间：{{paper.paper_id.pub_date}}</td>    
+                                                        <td> 发布时间：{{paper.paper_id.pub_date}}</td>
                                                     </tr>
                                                     {% endfor %}
                                                 </tbody>
@@ -164,56 +164,55 @@
                                             <img alt="image" class="img-circle" src="{% static 'media/student.jpg' %}" id="avatar" style="width: 100px">
                                         </div>
                                     </div>
-                                    <div class="col-lg-8">
-                                        <h1>
-                                            <a class="text-success " href="/edit/">
-                                                <button type="button" class="btn btn-rounded" style="color: dodgerblue;width: 80px" >
-                                                    编辑信息
-                                                </button>
-                                            </a>
-                                            &nbsp
-                                            <a>
-                                                <button class="btn btn-rounded" style="color: dodgerblue;width: 80px" onclick="upload.click()">
-                                                    上传头像
-                                                </button>
-                                                <input type="file" id="upload" style="display: none;" accept="image/*" onchange="inputFile(this)"/>
-                                            </a>
-                                            &nbsp
-                                            <a class="link" href="/logout/">
-                                                <button type="button" class="btn btn-rounded" style="color: dodgerblue;width: 80px" >
-                                                    退出登录
-                                                </button>
-                                            </a>
-                                        </h1><br>
-                                        <h4>
-                                            姓名：{{ request.session.user_name }}
-                                        </h4><br>
-                                        <h4>
-                                            学号：{{ request.session.user_idcard }}
-                                        </h4><br>
-                                        <h4>
-                                            性别：{{ user_info.sex }}
-                                            &nbsp&nbsp
-                                            生日：{{ user_info.birthday }}
-                                        </h4><br>
-                                        <h4>
-                                            邮箱：{{ user_info.email }}
-                                        </h4>
-                                    </div>
+                                    <div class="container">
+                                            <div class="col">
+                                                <form class="form-row" action="/edited/" method="post">
+
+                                                    {% if edit_form.captcha.errors %}
+                                                        <div class="alert alert-warning">{{ edit_form.captcha.errors }}</div>
+                                                    {% elif message %}
+                                                        <div class="alert alert-warning">{{ message }}</div>
+                                                    {% endif %}
+
+                                                  {% csrf_token %}
+                                                <div>
+                                                      <button type="submit" class="btn btn-rounded" style="color: dodgerblue;width: 80px">完成编辑</button>
+                                                      &nbsp
+                                                      <a class="link" href="/index/">
+                                                        <button type="button" class="btn btn-rounded" style="color: dodgerblue;width: 80px" >
+                                                            返回主页
+                                                        </button>
+                                                      </a>
+                                                      &nbsp
+                                                      <a class="link" href="/logout/">
+                                                        <button type="button" class="btn btn-rounded" style="color: dodgerblue;width: 80px" >
+                                                            退出登录
+                                                        </button>
+                                                      </a>
+                                                  </div><br><br>
+                                                  <div class="form-inline">
+                                                      {{ edit_form.username.label_tag }}
+                                                      {{ edit_form.username}}
+                                                  </div><br><div class="form-inline">
+                                                      {{ edit_form.idcard.label_tag }}
+                                                      {{ edit_form.idcard}}
+                                                  </div><br><div class="form-inline">
+                                                      {{ edit_form.email.label_tag }}
+                                                      {{ edit_form.email }}
+                                                  </div><br>
+                                                  <div class="form-inline">
+                                                      {{ edit_form.sex.label_tag }}
+                                                      {{ edit_form.sex }}
+                                                      {{ edit_form.birthday.label_tag }}
+                                                      {{ edit_form.birthday }}
+                                                  </div>
+                                                </form>
+                                            </div>
+                                    </div> <!-- /container -->
                                 </div>
                                 <div class="detail">
                                     <div class="scroll">
                                         <strong>显示成绩</strong>
-                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                                        <a class="text-success" href="/analyze/">
-                                            <button type="button" class="btn btn-rounded" style="color: dodgerblue;width: 80px" >
-                                                成绩分析
-                                            </button>
-                                         </a>
                                             <ul class="list-group clear-list">
                                                 {% for score in score_list %}
                                                 <li class="list-group-item fist-item">

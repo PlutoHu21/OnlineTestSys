@@ -13,4 +13,5 @@ urlpatterns = [
     path('<int:paper_id>/cal/', views.cal_score, name='calculate'),
     path('forgetpwd/',views.forgetpwd,name='forgetpwd'),
     path('download/',views.download,name='download'),
+    path('edit/', views.edit, name='edit'),
 ]

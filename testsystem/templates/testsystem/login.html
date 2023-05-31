@@ -11,7 +11,7 @@
     <!-- 上述meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <!-- Bootstrap CSS -->
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="{% static 'login/css/login.css' %}" rel="stylesheet"/> -->
+{#      <link href="{% static 'login/css/login.css' %}" rel="stylesheet"/>#}
     <title>登录</title>
     {% block icon %}
         <link rel="icon" href="{% static '/admin/simpleui-x/img/favicon.png' %}">
@@ -42,13 +42,14 @@
     <div class="login-main">
       {% block logo %}
           <div class="logo">
-              <img src="/static/admin/simpleui-x/img/favicon.png"}>
+              <img src="/static/admin/simpleui-x/img/favicon.png" }>
           </div>
       {% endblock %}
-  
+
       {% block header %}
           <div class="header">{{ site_header }}</div>
       {% endblock %}
+    <h2 class="text-center">欢迎登录</h2>
     <div class="container">
             <div class="col">
                 <form class="form-login" action="/login/" method="post">
@@ -58,23 +59,24 @@
                       <div class="alert alert-warning">{{ message }}</div>
                     {% endif %}
                     {% csrf_token %}
-                    <h3 class="text-center">欢迎登录</h3>
                     <div class="form-group">
                       <label for="id_username">姓名：</label>
                       <input type="text" name='username' class="form-control" id="id_username" placeholder="姓名" autofocus required>
-                    </div>
+                    </div><br>
                     <div class="form-group">
                       <label for="id_idcard">学号：</label>
                       <input type="text" name='idcard' class="form-control" id="id_idcard" placeholder="学号" autofocus required>
-                    </div>
+                    </div><br>
                     <div class="form-group">
                       <label for="id_password">密码：</label>
                       <input type="password" name='password' class="form-control" id="id_password" placeholder="密码" required>
-                    </div>
+                    </div><br>
                     <div>
+                        &nbsp&nbsp
                     <a href="/register/" class="text-success " ><ins>新用户注册</ins></a>
-                    <br>
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     <a href="/forgetpwd/" class="text-success " ><ins>忘记密码？</ins></a>
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     <button type="submit" class="btn btn-primary float-right">登录</button>
                     </div>
                   </form>
@@ -95,10 +97,10 @@
             <style type="text/css">
                 #particles-js {
                     position: fixed;
-                    top: 0px;
-                    left: 0px;
-                    right: 0px;
-                    bottom: 0px;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
                     z-index: -1;
                 }
             </style>

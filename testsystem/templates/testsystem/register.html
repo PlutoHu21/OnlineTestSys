@@ -11,7 +11,7 @@
     <!-- 上述meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <!-- Bootstrap CSS -->
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link href="{% static 'login/css/register.css' %}" rel="stylesheet"/> -->
+{#    <link href="{% static 'login/css/register.css' %}" rel="stylesheet"/>#}
     <title>注册</title>
     {% block icon %}
             <link rel="icon" href="{% static '/admin/simpleui-x/img/favicon.png' %}">
@@ -48,6 +48,7 @@
       {% block header %}
           <div class="header">{{ site_header }}</div>
       {% endblock %}
+    <h2 class="text-center">欢迎注册</h2>
     <div class="container">
             <div class="col">
                 <form class="form-register" action="/register/" method="post">
@@ -59,18 +60,20 @@
                     {% endif %}
 
                   {% csrf_token %}
-                  <h3 class="text-center">欢迎注册</h3>
 
                   <div class="form-group">
                       {{ register_form.username.label_tag }}
+                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                       {{ register_form.username}}
                   </div>
                   <div class="form-group">
                     {{ register_form.idcard.label_tag }}
+                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                     {{ register_form.idcard}}
                 </div>
                   <div class="form-group">
                       {{ register_form.password1.label_tag }}
+                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                       {{ register_form.password1 }}
                   </div>
                   <div class="form-group">
@@ -89,7 +92,9 @@
                       {{ register_form.birthday }}
                   </div>
                   <div>
+                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                       <a href="/login/"  ><ins>直接登录</ins></a>
+                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                       <button type="submit" class="btn btn-primary float-right">注册</button>
                   </div>
                 </form>

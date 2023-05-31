@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import requests
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Paper, Score, User
 import hashlib
@@ -133,6 +134,84 @@ def register(request):
     return render(request, 'testsystem/register.html', locals())
 
 
+# def edit(request):
+#     if not request.session.get('is_login', None):  # 未登录则限制访问
+#         return redirect('/login/')
+#     user_info = User.objects.get(idcard=request.session['user_idcard'])
+#     # avatar_obj = request.FILES.get('avatar')
+#     # user_info.avatar = avatar_obj
+#     paper_list = Paper.objects.order_by('-id')
+#     paper_count = Paper.objects.all().count()
+#     score_list = Score.objects.filter(user_id=request.session['user_id'])
+#     paper_finish = Score.objects.filter(user_id=request.session['user_id']).values_list('paper_id__paper_text',
+#                                                                                         'paper_id__id',
+#                                                                                         'paper_id__pub_date')
+#     paper_nofinish = []
+#     for i in paper_list:
+#         flag = False
+#         for j in paper_finish:
+#             if i.id == j[1]:
+#                 flag = True
+#         if not flag:
+#             paper_nofinish.append(i)
+#     return render(request, 'testsystem/edit.html',
+#                   {'paper_nofinish': paper_nofinish, 'paper_count': paper_count, 'score_list': score_list,
+#                    'user_info': user_info, 'paper_finish': paper_finish})
+
+
+def edit(request):
+    if not request.session.get('is_login', None):  # 未登录则限制访问
+        return redirect('/login/')
+
+    user_info = User.objects.get(idcard=request.session['user_idcard'])
+    # avatar_obj = request.FILES.get('avatar')
+    # user_info.avatar = avatar_obj
+    paper_list = Paper.objects.order_by('-id')
+    paper_count = Paper.objects.all().count()
+    score_list = Score.objects.filter(user_id=request.session['user_id'])
+    paper_finish = Score.objects.filter(user_id=request.session['user_id']).values_list('paper_id__paper_text',
+                                                                                        'paper_id__id',
+                                                                                        'paper_id__pub_date')
+    paper_nofinish = []
+    for i in paper_list:
+        flag = False
+        for j in paper_finish:
+            if i.id == j[1]:
+                flag = True
+        if not flag:
+            paper_nofinish.append(i)
+
+    if request.method == 'POST':
+        edit_form = forms.EditForm(request.POST)
+        message = "请检查填写的内容！"
+        if edit_form.is_valid():
+            username = edit_form.cleaned_data.get('username')
+            idcard = edit_form.cleaned_data.get('idcard')
+            email = edit_form.cleaned_data.get('email')
+            sex = edit_form.cleaned_data.get('sex')
+            birthday = edit_form.cleaned_data.get('birthday')
+
+            same_name_user = models.User.objects.filter(idcard=idcard)
+            if same_name_user:
+                message = '学号已经存在'
+                return render(request, 'testsystem/edit.html', locals())
+            same_email_user = models.User.objects.filter(email=email)
+            if same_email_user:
+                message = '该邮箱已经被注册了！'
+                return render(request, 'testsystem/edit.html', locals())
+            if birthday > datetime.now().date():
+                message = '该出生日期不实!'
+                return render(request, 'testsystem/edit.html', locals())
+            name = request.session.get('username')
+            models.User.objects.filter(username=name).update(username=username, idcard=idcard, email=email,
+                                                             birthday=birthday, sex=sex)
+            return redirect('/index/')
+        else:
+            return render(request, 'testsystem/edit.html', locals())
+    edit_form = forms.EditForm(request.POST)
+    return render(request, 'testsystem/edit.html', locals())
+
+
 def logout(request):
     if not request.session.get('is_login', None):
         # 如果本来就未登录，也就没有登出一说
@@ -214,8 +293,8 @@ def cal_score(request, paper_id):
 
 
 def download(request):
-    file = open('testsystem/download/STU-question_bank_template.xlsx', 'rb')
+    file = open('testsystem/download/question_bank_template.xlsx', 'rb')
     response = FileResponse(file)
     response['Content-Type'] = 'application/octet-stream'
-    response['Content-Disposition'] = 'attachment;filename="STU-question_bank_template.xlsx"'
+    response['Content-Disposition'] = 'attachment;filename="question_bank_template.xlsx"'
     return response

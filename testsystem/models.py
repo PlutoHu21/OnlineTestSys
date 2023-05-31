@@ -46,7 +46,7 @@ class User(models.Model):
 
 
 class Paper(models.Model):
-    paper_text = models.CharField('试卷标题', max_length=30)
+    paper_text = models.CharField('试卷标题', max_length=128)
     pub_date = models.DateTimeField('发布日期', auto_now_add=True)
     time = models.TimeField("限时")
 
@@ -145,8 +145,8 @@ class Score(models.Model):
 
 
 class File(models.Model):
-    file = models.FileField("上传试卷", upload_to=settings.FILE_ROOT)
-    name = models.CharField("试卷名称", max_length=200)
+    file = models.FileField("上传文件", upload_to=settings.FILE_ROOT)
+    name = models.CharField("文件名称", max_length=200)
     time = models.TimeField("限时")
 
     class Meta:

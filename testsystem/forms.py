@@ -20,3 +20,15 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(label="邮箱地址", widget=forms.EmailInput(attrs={'class': 'form-control'}))
     sex = forms.ChoiceField(label='性别', choices=gender)
     birthday = forms.DateField(label="生日", widget=forms.DateInput(attrs={'type': 'date'}))
+
+
+class EditForm(forms.Form):
+    gender = (
+        ('male', "男"),
+        ('female', "女"),
+    )
+    username = forms.CharField(label="姓名", max_length=128, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    idcard = forms.CharField(label="学号", max_length=12, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(label="邮箱地址", widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    sex = forms.ChoiceField(label='性别', choices=gender)
+    birthday = forms.DateField(label="生日", widget=forms.DateInput(attrs={'type': 'date'}))
